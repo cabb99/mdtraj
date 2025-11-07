@@ -24,36 +24,40 @@ These files were added directly to the initial commit of this branch and are pre
 
 To update the vendor files when OpenMM makes changes:
 
-1. **Check out this branch:**
-
+1. **Check out this branch**
    ```bash
    git checkout port/openmm-pdbx
    ```
 
-2. **Remove the old vendor files:**
-
+2. **Clone OpenMM temporarily:**
    ```bash
-   git rm -r openmm/wrappers/python/openmm/app/internal/pdbx
-   git rm    openmm/wrappers/python/openmm/app/pdbxfile.py
-   git rm    openmm/wrappers/python/tests/TestPdbxFile.py
+   git clone https://github.com/openmm/openmm.git
    ```
 
-3. **Copy the new versions of the vendor files:**
-   Replace the deleted files with their updated versions from the OpenMM repo (for example, by checking out the latest OpenMM and copying files over):
+    You will have a new folder with the most updated OpenMM commit. You can change to an specific tag if needed.
 
+3. **Remove current vendor files:**
+    ```bash
+    git rm -r pdbx pdbxfile.py TestPdbxFile.py
+    ```
+
+3. **Copy new files:**
    ```bash
-   cp -r ../openmm/wrappers/python/openmm/app/internal/pdbx .
-   cp ../openmm/wrappers/python/openmm/app/pdbxfile.py .
-   cp ../openmm/wrappers/python/tests/TestPdbxFile.py .
+   cp -r openmm/wrappers/python/openmm/app/internal/pdbx/ .
+   cp openmm/wrappers/python/openmm/app/pdbxfile.py .
+   cp openmm/wrappers/python/tests/TestPdbxFile.py .
    ```
 
-4. **Stage and commit the updates:**
-
+4. **Stage and commit updates:**
    ```bash
-   git add openmm/wrappers/python/openmm/app/internal/pdbx
-   git add openmm/wrappers/python/openmm/app/pdbxfile.py
-   git add openmm/wrappers/python/tests/TestPdbxFile.py
-   git commit -m "Update vendor files from OpenMM commit <sha or tag>"
+   git add pdbx pdbxfile.py TestPdbxFile.py
+   tag=$(git -C openmm rev-parse --short HEAD)
+   git commit -m "Update vendor files from OpenMM commit $tag"
+   ```
+
+5. **Cleanup:**
+   ```bash
+   rm -r openmm/
    ```
 
 ---
